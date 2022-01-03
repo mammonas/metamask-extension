@@ -51,6 +51,10 @@ export default class AdvancedTab extends PureComponent {
     setDismissSeedBackUpReminder: PropTypes.func.isRequired,
     dismissSeedBackUpReminder: PropTypes.bool.isRequired,
     userHasALedgerAccount: PropTypes.bool.isRequired,
+    autoApproveOption: PropTypes.bool.isRequired,
+    setAutoApproveOption: PropTypes.func.isRequired,
+    autoApproveGasLimit: PropTypes.number,
+    setAutoApproveGasLimit: PropTypes.func.isRequired,
   };
 
   state = {
@@ -59,6 +63,7 @@ export default class AdvancedTab extends PureComponent {
     ipfsGateway: this.props.ipfsGateway,
     ipfsGatewayError: '',
     showLedgerTransportWarning: false,
+    autoApproveGasLimit: this.props.autoApproveGasLimit,
   };
 
   showTestNetworksRef = React.createRef();
@@ -344,6 +349,28 @@ export default class AdvancedTab extends PureComponent {
       return {
         autoLockTimeLimit,
         lockTimeError,
+      };
+    });
+  }
+
+  handleAutoApproveGas(gas) {
+    const { t } = this.context;
+    const autoApproveGasLimit = Math.max(Number(gas), 0);
+
+    this.setState(() => {
+      let approveGasError = '';
+
+      if (autoApproveGasLimit > 10080) {
+        approveGasError = t('autoApproveGasTooGreat');
+      }
+
+      if (autoApproveGasLimit < 1) {
+        approveGasError = t('autoApproveGasTooSmall');
+      }
+
+      return {
+        autoApproveGasLimit,
+        approveGasError,
       };
     });
   }
@@ -645,6 +672,60 @@ export default class AdvancedTab extends PureComponent {
     );
   }
 
+  renderAutoApproveControl() {
+    const { t } = this.context;
+    const {
+      autoApproveOption,
+      setAutoApproveOption,
+      autoApproveGasLimit,
+      setAutoApproveGasLimit,
+    } = this.props;
+    const { approveGasError } = this.state;
+
+    return (
+      <div
+        className="settings-page__content-row"
+        data-testid="advanced-setting-auto-approve"
+      >
+        <div className="settings-page__content-item">
+          <span>{t('autoApproveSpending')}</span>
+        </div>
+        <div className="settings-page__content-item">
+          <div className="settings-page__content-item-col">
+            <ToggleButton
+              value={autoApproveOption}
+              onToggle={(value) => setAutoApproveOption(!value)}
+              offLabel={t('off')}
+              onLabel={t('on')}
+            />
+            <TextField
+              type="number"
+              id="autoApproveGas"
+              placeholder="10"
+              value={this.state.autoApproveGasLimit}
+              defaultValue={autoApproveGasLimit}
+              onChange={(e) => this.handleAutoApproveGas(e.target.value)}
+              error={approveGasError}
+              fullWidth
+              margin="dense"
+              min={1}
+            />
+            <Button
+              type="primary"
+              className="settings-tab__rpc-save-button"
+              disabled={approveGasError !== ''}
+              onClick={() => {
+                setAutoApproveGasLimit(this.state.autoApproveGasLimit);
+              }}
+            >
+              {t('save')}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { warning } = this.props;
 
@@ -666,6 +747,7 @@ export default class AdvancedTab extends PureComponent {
         {this.renderIpfsGatewayControl()}
         {notUsingFirefox ? this.renderLedgerLiveControl() : null}
         {this.renderDismissSeedBackupReminderControl()}
+        {this.renderAutoApproveControl()}
       </div>
     );
   }

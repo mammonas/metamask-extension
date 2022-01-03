@@ -14,6 +14,8 @@ import {
   setIpfsGateway,
   setLedgerTransportPreference,
   setDismissSeedBackUpReminder,
+  setAutoApproveOption,
+  setAutoApproveGasLimit,
 } from '../../../store/actions';
 import { getPreferences } from '../../../selectors';
 import { doesUserHaveALedgerAccount } from '../../../ducks/metamask/metamask';
@@ -32,11 +34,13 @@ export const mapStateToProps = (state) => {
     ipfsGateway,
     ledgerTransportType,
     dismissSeedBackUpReminder,
+    autoApproveOption,
   } = metamask;
   const {
     showFiatInTestnets,
     showTestNetworks,
     autoLockTimeLimit,
+    autoApproveGasLimit,
   } = getPreferences(state);
 
   const userHasALedgerAccount = doesUserHaveALedgerAccount(state);
@@ -54,6 +58,8 @@ export const mapStateToProps = (state) => {
     ipfsGateway,
     ledgerTransportType,
     dismissSeedBackUpReminder,
+    autoApproveOption,
+    autoApproveGasLimit,
     userHasALedgerAccount,
   };
 };
@@ -77,6 +83,9 @@ export const mapDispatchToProps = (dispatch) => {
     setAutoLockTimeLimit: (value) => {
       return dispatch(setAutoLockTimeLimit(value));
     },
+    setAutoApproveGasLimit: (value) => {
+      return dispatch(setAutoApproveGasLimit(value));
+    },
     setThreeBoxSyncingPermission: (newThreeBoxSyncingState) => {
       if (newThreeBoxSyncingState) {
         dispatch(turnThreeBoxSyncingOnAndInitialize());
@@ -92,6 +101,9 @@ export const mapDispatchToProps = (dispatch) => {
     },
     setDismissSeedBackUpReminder: (value) => {
       return dispatch(setDismissSeedBackUpReminder(value));
+    },
+    setAutoApproveOption: (value) => {
+      return dispatch(setAutoApproveOption(value));
     },
   };
 };

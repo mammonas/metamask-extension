@@ -20,6 +20,7 @@ function mapStateToProps(state) {
   const { appState } = state;
   const { alertOpen, alertMessage, isLoading, loadingMessage } = appState;
   const { autoLockTimeLimit = 0 } = getPreferences(state);
+  const { autoApproveGasLimit = 5 } = getPreferences(state);
 
   return {
     alertOpen,
@@ -32,6 +33,7 @@ function mapStateToProps(state) {
     currentCurrency: state.metamask.currentCurrency,
     isMouseUser: state.appState.isMouseUser,
     autoLockTimeLimit,
+    autoApproveGasLimit,
     browserEnvironmentOs: state.metamask.browserEnvironment?.os,
     browserEnvironmentContainter: state.metamask.browserEnvironment?.browser,
     providerId: getNetworkIdentifier(state),

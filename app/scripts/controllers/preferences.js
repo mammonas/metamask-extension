@@ -33,6 +33,7 @@ export default class PreferencesController {
       useNonceField: false,
       usePhishDetect: true,
       dismissSeedBackUpReminder: false,
+      autoApproveOption: false,
 
       // set to true means the dynamic list from the API is being used
       // set to false will be using the static list from contract-metadata
@@ -55,6 +56,7 @@ export default class PreferencesController {
       forgottenPassword: false,
       preferences: {
         autoLockTimeLimit: undefined,
+        autoApproveGasLimit: undefined,
         showFiatInTestnets: false,
         showTestNetworks: false,
         useNativeCurrencyAsPrimaryCurrency: true,
@@ -587,6 +589,12 @@ export default class PreferencesController {
   async setDismissSeedBackUpReminder(dismissSeedBackUpReminder) {
     await this.store.updateState({
       dismissSeedBackUpReminder,
+    });
+  }
+
+  async setAutoApproveOption(autoApproveOption) {
+    await this.store.updateState({
+      autoApproveOption,
     });
   }
 

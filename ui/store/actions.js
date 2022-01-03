@@ -2045,6 +2045,10 @@ export function setAutoLockTimeLimit(value) {
   return setPreference('autoLockTimeLimit', value);
 }
 
+export function setAutoApproveGasLimit(value) {
+  return setPreference('autoApproveGasLimit', value);
+}
+
 export function setCompletedOnboarding() {
   return async (dispatch) => {
     dispatch(showLoadingIndication());
@@ -2610,6 +2614,14 @@ export function setDismissSeedBackUpReminder(value) {
   return async (dispatch) => {
     dispatch(showLoadingIndication());
     await promisifiedBackground.setDismissSeedBackUpReminder(value);
+    dispatch(hideLoadingIndication());
+  };
+}
+
+export function setAutoApproveOption(value) {
+  return async (dispatch) => {
+    dispatch(showLoadingIndication());
+    await promisifiedBackground.setAutoApproveOption(value);
     dispatch(hideLoadingIndication());
   };
 }
