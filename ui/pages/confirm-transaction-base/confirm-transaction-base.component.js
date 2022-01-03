@@ -146,6 +146,7 @@ export default class ConfirmTransactionBase extends Component {
     supportsEIP1559: PropTypes.bool,
     hardwareWalletRequiresConnection: PropTypes.bool,
     isMultiLayerFeeNetwork: PropTypes.bool,
+    isAutoConfirmTransaction: PropTypes.bool,
   };
 
   state = {
@@ -1005,6 +1006,7 @@ export default class ConfirmTransactionBase extends Component {
       nativeCurrency,
       hardwareWalletRequiresConnection,
       supportsEIP1559,
+      isAutoConfirmTransaction,
     } = this.props;
     const {
       submitting,
@@ -1108,6 +1110,7 @@ export default class ConfirmTransactionBase extends Component {
             supportsEIP1559 &&
             !isLegacyTransaction(txData)
           }
+          isAutoConfirmTransaction={isAutoConfirmTransaction}
         />
       </TransactionModalContextProvider>
     );

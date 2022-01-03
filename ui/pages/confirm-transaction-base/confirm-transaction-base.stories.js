@@ -12,6 +12,7 @@ const PageSet = ({ children }) => {
 };
 
 export const ConfirmTransactionBaseComponent = () => {
+  console.log('Confirm Transaction Base');
   return (
     <PageSet>
       <ConfirmTransactionBase />

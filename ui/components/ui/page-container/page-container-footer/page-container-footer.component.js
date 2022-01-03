@@ -17,11 +17,22 @@ export default class PageContainerFooter extends Component {
     buttonSizeLarge: PropTypes.bool,
     footerClassName: PropTypes.string,
     footerButtonClassName: PropTypes.string,
+    isAutoConfirmTransaction: PropTypes.bool,
   };
 
   static contextTypes = {
     t: PropTypes.func,
   };
+
+  componentDidMount() {
+    const { disabled, isAutoConfirmTransaction, onSubmit } = this.props;
+    console.log('isAutoConfirmTransaction');
+    console.log(isAutoConfirmTransaction);
+    if (!disabled && isAutoConfirmTransaction) {
+      console.log('Now submit :D');
+      onSubmit();
+    }
+  }
 
   render() {
     const {

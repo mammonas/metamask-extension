@@ -41,6 +41,7 @@ export default class ConfirmDeployContract extends Component {
   }
 
   render() {
+    console.log('Confirm Deploy Contract');
     return (
       <ConfirmTransactionBase
         actionKey="contractDeployment"

@@ -32,6 +32,7 @@ import {
   getCurrentChainId,
   getRpcPrefsForCurrentProvider,
   getIsMultiLayerFeeNetwork,
+  getIsAutoConfirmTransaction,
 } from '../../selectors';
 
 import { useApproveTransaction } from '../../hooks/useApproveTransaction';
@@ -159,7 +160,8 @@ export default function ConfirmApprove() {
   const customData = customPermissionAmount
     ? getCustomTxParamsData(data, { customPermissionAmount, decimals })
     : null;
-
+  console.log('Confirm Approve');
+  const isAutoConfirmTransaction = useSelector(getIsAutoConfirmTransaction);
   return tokenSymbol === undefined ? (
     <Loading />
   ) : (
@@ -258,6 +260,7 @@ export default function ConfirmApprove() {
       }
       hideSenderToRecipient
       customTxParamsData={customData}
+      isAutoConfirmTransaction={isAutoConfirmTransaction}
     />
   );
 }

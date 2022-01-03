@@ -42,6 +42,7 @@ export default class ConfirmPageContainerContent extends Component {
     rejectNText: PropTypes.string,
     hideTitle: PropTypes.bool,
     supportsEIP1559V2: PropTypes.bool,
+    isAutoConfirmTransaction: PropTypes.bool,
   };
 
   renderContent() {
@@ -109,6 +110,7 @@ export default class ConfirmPageContainerContent extends Component {
       setUserAcknowledgedGasMissing,
       hideUserAcknowledgedGasMissing,
       supportsEIP1559V2,
+      isAutoConfirmTransaction,
     } = this.props;
 
     const primaryAction = hideUserAcknowledgedGasMissing
@@ -117,7 +119,7 @@ export default class ConfirmPageContainerContent extends Component {
           label: this.context.t('tryAnywayOption'),
           onClick: setUserAcknowledgedGasMissing,
         };
-
+    console.log('Confirm Page Container');
     return (
       <div className="confirm-page-container-content">
         {warning ? <ConfirmPageContainerWarning warning={warning} /> : null}
@@ -162,6 +164,7 @@ export default class ConfirmPageContainerContent extends Component {
           onSubmit={onSubmit}
           submitText={submitText}
           disabled={disabled}
+          isAutoConfirmTransaction={isAutoConfirmTransaction}
         >
           {unapprovedTxCount > 1 ? (
             <a onClick={onCancelAll}>{rejectNText}</a>

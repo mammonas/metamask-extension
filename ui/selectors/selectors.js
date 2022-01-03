@@ -791,6 +791,10 @@ export function getAdvancedGasFeeValues(state) {
   return state.metamask.advancedGasFee;
 }
 
+export function getIsAutoConfirmTransaction(state) {
+  return state.metamask.autoConfirmOption;
+}
+
 /**
  *  To check if the user has set advanced gas fee settings as default with a non empty  maxBaseFee and priotityFee.
  *  @param {*} state

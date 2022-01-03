@@ -85,6 +85,7 @@ export default class ConfirmPageContainer extends Component {
     contact: PropTypes.object,
     isOwnedAccount: PropTypes.bool,
     supportsEIP1559V2: PropTypes.bool,
+    isAutoConfirmTransaction: PropTypes.bool,
   };
 
   render() {
@@ -136,6 +137,7 @@ export default class ConfirmPageContainer extends Component {
       contact = {},
       isOwnedAccount,
       supportsEIP1559V2,
+      isAutoConfirmTransaction,
     } = this.props;
 
     const showAddToAddressDialog =
@@ -148,7 +150,7 @@ export default class ConfirmPageContainer extends Component {
       (currentTransaction.type === TRANSACTION_TYPES.CONTRACT_INTERACTION ||
         currentTransaction.type === TRANSACTION_TYPES.DEPLOY_CONTRACT) &&
       currentTransaction.txParams?.value === '0x0';
-
+    console.log('Confirm Page Container 2');
     return (
       <GasFeeContextProvider transaction={currentTransaction}>
         <div className="page-container">
@@ -229,6 +231,7 @@ export default class ConfirmPageContainer extends Component {
               ethGasPriceWarning={ethGasPriceWarning}
               hideTitle={hideTitle}
               supportsEIP1559V2={supportsEIP1559V2}
+              isAutoConfirmTransaction={isAutoConfirmTransaction}
             />
           )}
           {shouldDisplayWarning && (
@@ -243,6 +246,7 @@ export default class ConfirmPageContainer extends Component {
               onSubmit={onSubmit}
               submitText={this.context.t('confirm')}
               disabled={disabled}
+              isAutoConfirmTransaction={isAutoConfirmTransaction}
             >
               {unapprovedTxCount > 1 && (
                 <a onClick={onCancelAll}>

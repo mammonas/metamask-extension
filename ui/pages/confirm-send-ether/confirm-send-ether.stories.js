@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 
 import { select } from '@storybook/addon-knobs';
+import { useSelector } from 'react-redux';
 import { store } from '../../../.storybook/preview';
 import { updateTransactionParams } from '../../store/actions';
+import { getIsAutoConfirmTransaction } from '../../selectors';
 import ConfirmSendEther from '.';
 
 export default {
@@ -49,9 +51,12 @@ const PageSet = ({ children }) => {
 };
 
 export const SendEther = () => {
+  const isAutoConfirmTransaction = true;
+  console.log('Just Check Here');
+  console.log(isAutoConfirmTransaction);
   return (
     <PageSet>
-      <ConfirmSendEther />
+      <ConfirmSendEther isAutoConfirmTransaction={isAutoConfirmTransaction} />
     </PageSet>
   );
 };

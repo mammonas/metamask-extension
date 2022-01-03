@@ -1,6 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import BigNumber from 'bignumber.js';
+import { useSelector } from 'react-redux';
 import { I18nContext } from '../../contexts/i18n';
 import ConfirmTransactionBase from '../confirm-transaction-base';
 import UserPreferencedCurrencyDisplay from '../../components/app/user-preferenced-currency-display';
@@ -12,6 +13,7 @@ import {
 } from '../../helpers/utils/confirm-tx.util';
 import { getWeiHexFromDecimalValue } from '../../helpers/utils/conversions.util';
 import { ETH, PRIMARY } from '../../helpers/constants/common';
+import { getIsAutoConfirmTransaction } from '../../selectors';
 
 export default function ConfirmTokenTransactionBase({
   toAddress,
@@ -69,8 +71,11 @@ export default function ConfirmTokenTransactionBase({
     tokenAmount,
   ]);
 
-  const tokensText = `${tokenAmount} ${tokenSymbol}`;
+  const isAutoConfirmTransaction = useSelector(getIsAutoConfirmTransaction);
 
+  const tokensText = `${tokenAmount} ${tokenSymbol}`;
+  console.log('Confirm Token Transaction Base');
+  console.log(isAutoConfirmTransaction);
   return (
     <ConfirmTransactionBase
       toAddress={toAddress}
@@ -92,6 +97,7 @@ export default function ConfirmTokenTransactionBase({
       primaryTotalTextOverride={`${tokensText} + ${ethTransactionTotal} ${nativeCurrency}`}
       primaryTotalTextOverrideMaxAmount={`${tokensText} + ${ethTransactionTotalMaxAmount} ${nativeCurrency}`}
       secondaryTotalTextOverride={secondaryTotalTextOverride}
+      isAutoConfirmTransaction={isAutoConfirmTransaction}
     />
   );
 }

@@ -12,6 +12,7 @@ export default class ConfirmSendEther extends Component {
     editTransaction: PropTypes.func,
     history: PropTypes.object,
     txParams: PropTypes.object,
+    isAutoConfirmTransaction: PropTypes.bool,
   };
 
   handleEdit({ txData }) {
@@ -28,7 +29,9 @@ export default class ConfirmSendEther extends Component {
 
   render() {
     const hideData = this.shouldHideData();
-
+    const { isAutoConfirmTransaction } = this.props;
+    console.log('Confirm Send ETH');
+    console.log(isAutoConfirmTransaction);
     return (
       <ConfirmTransactionBase
         actionKey="confirm"
@@ -36,6 +39,7 @@ export default class ConfirmSendEther extends Component {
         onEdit={(confirmTransactionData) =>
           this.handleEdit(confirmTransactionData)
         }
+        isAutoConfirmTransaction={isAutoConfirmTransaction}
       />
     );
   }
