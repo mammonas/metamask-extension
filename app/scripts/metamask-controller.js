@@ -1042,8 +1042,8 @@ export default class MetamaskController extends EventEmitter {
         this.preferencesController.setDismissSeedBackUpReminder,
         this.preferencesController,
       ),
-      setAutoApproveOption: nodeify(
-        this.preferencesController.setAutoApproveOption,
+      setAutoConfirmOption: nodeify(
+        this.preferencesController.setAutoConfirmOption,
         this.preferencesController,
       ),
       setAdvancedGasFee: nodeify(

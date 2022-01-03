@@ -33,7 +33,7 @@ export default class PreferencesController {
       useNonceField: false,
       usePhishDetect: true,
       dismissSeedBackUpReminder: false,
-      autoApproveOption: false,
+      autoConfirmOption: false,
 
       // set to true means the dynamic list from the API is being used
       // set to false will be using the static list from contract-metadata
@@ -56,7 +56,7 @@ export default class PreferencesController {
       forgottenPassword: false,
       preferences: {
         autoLockTimeLimit: undefined,
-        autoApproveGasLimit: undefined,
+        autoConfirmGasLimit: undefined,
         showFiatInTestnets: false,
         showTestNetworks: false,
         useNativeCurrencyAsPrimaryCurrency: true,
@@ -592,9 +592,9 @@ export default class PreferencesController {
     });
   }
 
-  async setAutoApproveOption(autoApproveOption) {
+  async setAutoConfirmOption(autoConfirmOption) {
     await this.store.updateState({
-      autoApproveOption,
+      autoConfirmOption,
     });
   }
 

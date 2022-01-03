@@ -18,7 +18,7 @@ export const AdvancedTabComponent = () => {
         setIpfsGateway={() => undefined}
         setLedgerTransportPreference={() => undefined}
         setDismissSeedBackUpReminder={() => undefined}
-        setAutoApproveOption={() => undefined}
+        setAutoConfirmOption={() => undefined}
         setUseNonceField={() => undefined}
         setHexDataFeatureFlag={() => undefined}
         displayWarning={() => undefined}
@@ -41,11 +41,8 @@ export const AdvancedTabComponent = () => {
           'Dismiss recovery phrase backup reminder',
           false,
         )}
-        autoApproveOption={boolean(
-          'Auto Approve Spending',
-          false,
-        )}
-        setAutoApproveGasLimit={() => undefined}
+        autoConfirmOption={boolean('Auto Confirm Transaction', false)}
+        setAutoConfirmGasLimit={() => undefined}
       />
     </div>
   );

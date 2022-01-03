@@ -51,10 +51,10 @@ export default class AdvancedTab extends PureComponent {
     setDismissSeedBackUpReminder: PropTypes.func.isRequired,
     dismissSeedBackUpReminder: PropTypes.bool.isRequired,
     userHasALedgerAccount: PropTypes.bool.isRequired,
-    autoApproveOption: PropTypes.bool.isRequired,
-    setAutoApproveOption: PropTypes.func.isRequired,
-    autoApproveGasLimit: PropTypes.number,
-    setAutoApproveGasLimit: PropTypes.func.isRequired,
+    autoConfirmOption: PropTypes.bool.isRequired,
+    setAutoConfirmOption: PropTypes.func.isRequired,
+    autoConfirmGasLimit: PropTypes.number,
+    setAutoConfirmGasLimit: PropTypes.func.isRequired,
   };
 
   state = {
@@ -63,7 +63,7 @@ export default class AdvancedTab extends PureComponent {
     ipfsGateway: this.props.ipfsGateway,
     ipfsGatewayError: '',
     showLedgerTransportWarning: false,
-    autoApproveGasLimit: this.props.autoApproveGasLimit,
+    autoConfirmGasLimit: this.props.autoConfirmGasLimit,
   };
 
   showTestNetworksRef = React.createRef();
@@ -353,24 +353,24 @@ export default class AdvancedTab extends PureComponent {
     });
   }
 
-  handleAutoApproveGas(gas) {
+  handleAutoConfirmGas(gas) {
     const { t } = this.context;
-    const autoApproveGasLimit = Math.max(Number(gas), 0);
+    const autoConfirmGasLimit = Math.max(Number(gas), 0);
 
     this.setState(() => {
-      let approveGasError = '';
+      let confirmGasError = '';
 
-      if (autoApproveGasLimit > 10080) {
-        approveGasError = t('autoApproveGasTooGreat');
+      if (autoConfirmGasLimit > 10080) {
+        confirmGasError = t('autoConfirmGasTooGreat');
       }
 
-      if (autoApproveGasLimit < 1) {
-        approveGasError = t('autoApproveGasTooSmall');
+      if (autoConfirmGasLimit < 1) {
+        confirmGasError = t('autoConfirmGasTooSmall');
       }
 
       return {
-        autoApproveGasLimit,
-        approveGasError,
+        autoConfirmGasLimit,
+        confirmGasError,
       };
     });
   }
@@ -672,15 +672,15 @@ export default class AdvancedTab extends PureComponent {
     );
   }
 
-  renderAutoApproveControl() {
+  renderAutoConfirmControl() {
     const { t } = this.context;
     const {
-      autoApproveOption,
-      setAutoApproveOption,
-      autoApproveGasLimit,
-      setAutoApproveGasLimit,
+      autoConfirmOption,
+      setAutoConfirmOption,
+      autoConfirmGasLimit,
+      setAutoConfirmGasLimit,
     } = this.props;
-    const { approveGasError } = this.state;
+    const { confirmGasError } = this.state;
 
     return (
       <div
@@ -688,24 +688,24 @@ export default class AdvancedTab extends PureComponent {
         data-testid="advanced-setting-auto-approve"
       >
         <div className="settings-page__content-item">
-          <span>{t('autoApproveSpending')}</span>
+          <span>{t('autoConfirmTransaction')}</span>
         </div>
         <div className="settings-page__content-item">
           <div className="settings-page__content-item-col">
             <ToggleButton
-              value={autoApproveOption}
-              onToggle={(value) => setAutoApproveOption(!value)}
+              value={autoConfirmOption}
+              onToggle={(value) => setAutoConfirmOption(!value)}
               offLabel={t('off')}
               onLabel={t('on')}
             />
             <TextField
               type="number"
-              id="autoApproveGas"
+              id="autoConfirmGas"
               placeholder="10"
-              value={this.state.autoApproveGasLimit}
-              defaultValue={autoApproveGasLimit}
-              onChange={(e) => this.handleAutoApproveGas(e.target.value)}
-              error={approveGasError}
+              value={this.state.autoConfirmGasLimit}
+              defaultValue={autoConfirmGasLimit}
+              onChange={(e) => this.handleAutoConfirmGas(e.target.value)}
+              error={confirmGasError}
               fullWidth
               margin="dense"
               min={1}
@@ -713,9 +713,9 @@ export default class AdvancedTab extends PureComponent {
             <Button
               type="primary"
               className="settings-tab__rpc-save-button"
-              disabled={approveGasError !== ''}
+              disabled={confirmGasError !== ''}
               onClick={() => {
-                setAutoApproveGasLimit(this.state.autoApproveGasLimit);
+                setAutoConfirmGasLimit(this.state.autoConfirmGasLimit);
               }}
             >
               {t('save')}
@@ -747,7 +747,7 @@ export default class AdvancedTab extends PureComponent {
         {this.renderIpfsGatewayControl()}
         {notUsingFirefox ? this.renderLedgerLiveControl() : null}
         {this.renderDismissSeedBackupReminderControl()}
-        {this.renderAutoApproveControl()}
+        {this.renderAutoConfirmControl()}
       </div>
     );
   }

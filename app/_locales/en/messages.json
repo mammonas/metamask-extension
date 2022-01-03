@@ -739,11 +739,11 @@
   "dismissReminderField": {
     "message": "Dismiss Secret Recovery Phrase backup reminder"
   },
-  "autoApproveSpending": {
-    "message": "Auto Approve Spending"
+  "autoConfirmTransaction": {
+    "message": "Auto Confirm Transaction"
   },
-  "autoApproveGas": {
-    "message": "Auto Approve Gas"
+  "autoConfirmGas": {
+    "message": "Auto Confirm Gas"
   },
   "autoConfirmTransaction": {
     "message": "Auto Confirm Transaction"
@@ -1514,10 +1514,10 @@
   "lockTimeTooGreat": {
     "message": "Lock time is too great"
   },
-  "autoApproveGasTooGreat": {
+  "autoConfirmGasTooGreat": {
     "message": "Gas is too great"
   },
-  "autoApproveGasTooSmall": {
+  "autoConfirmGasTooSmall": {
     "message": "Gas is too small"
   },
   "low": {

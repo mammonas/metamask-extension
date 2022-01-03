@@ -33,7 +33,7 @@ export default function reduceMetamask(state = {}, action) {
     currentBlockGasLimit: '',
     preferences: {
       autoLockTimeLimit: undefined,
-      autoApproveGasLimit: undefined,
+      autoConfirmGasLimit: undefined,
       showFiatInTestnets: false,
       showTestNetworks: false,
       useNativeCurrencyAsPrimaryCurrency: true,

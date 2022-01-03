@@ -27,8 +27,8 @@ describe('AdvancedTab Component', () => {
         setLedgerTransportPreference={() => undefined}
         setDismissSeedBackUpReminder={() => undefined}
         dismissSeedBackUpReminder={false}
-        setAutoApproveOption={() => undefined}
-        autoApproveOption={false}
+        setAutoConfirmOption={() => undefined}
+        autoConfirmOption={false}
       />,
       {
         context: {
@@ -57,8 +57,8 @@ describe('AdvancedTab Component', () => {
         setLedgerTransportPreference={() => undefined}
         setDismissSeedBackUpReminder={() => undefined}
         dismissSeedBackUpReminder={false}
-        setAutoApproveOption={() => undefined}
-        autoApproveOption={false}
+        setAutoConfirmOption={() => undefined}
+        autoConfirmOption={false}
         setShowTestNetworks={toggleTestnet}
       />,
       {
