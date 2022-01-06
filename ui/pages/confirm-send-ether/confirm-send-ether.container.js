@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { ASSET_TYPES, editTransaction } from '../../ducks/send';
 import { clearConfirmTransaction } from '../../ducks/confirm-transaction/confirm-transaction.duck';
+import { getIsAutoConfirmTransaction } from '../../selectors';
 import ConfirmSendEther from './confirm-send-ether.component';
 
 const mapStateToProps = (state) => {
@@ -10,8 +11,11 @@ const mapStateToProps = (state) => {
     confirmTransaction: { txData: { txParams } = {} },
   } = state;
 
+  const isAutoConfirmTransaction = getIsAutoConfirmTransaction(state);
+
   return {
     txParams,
+    isAutoConfirmTransaction,
   };
 };
 
