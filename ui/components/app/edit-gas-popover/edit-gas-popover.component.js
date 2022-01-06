@@ -229,6 +229,7 @@ export default function EditGasPopover({
   }
 
   const footerButtonText = confirmButtonText || t('save');
+
   return (
     <Popover
       title={title}

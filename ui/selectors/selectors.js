@@ -795,6 +795,10 @@ export function getIsAutoConfirmTransaction(state) {
   return state.metamask.autoConfirmOption;
 }
 
+export function getAutoConfirmGas(state) {
+  return state.metamask.preferences.autoConfirmGasLimit;
+}
+
 /**
  *  To check if the user has set advanced gas fee settings as default with a non empty  maxBaseFee and priotityFee.
  *  @param {*} state

@@ -32,6 +32,7 @@ import {
   getUseTokenDetection,
   getTokenList,
   getIsMultiLayerFeeNetwork,
+  getIsAutoConfirmTransaction,
 } from '../../selectors';
 import { getMostRecentOverviewPage } from '../../ducks/history/history';
 import {
@@ -184,6 +185,7 @@ const mapStateToProps = (state, ownProps) => {
   );
 
   const isMultiLayerFeeNetwork = getIsMultiLayerFeeNetwork(state);
+  const isAutoConfirmTransaction = getIsAutoConfirmTransaction(state);
 
   return {
     balance,
@@ -234,6 +236,7 @@ const mapStateToProps = (state, ownProps) => {
     nativeCurrency,
     hardwareWalletRequiresConnection,
     isMultiLayerFeeNetwork,
+    isAutoConfirmTransaction,
     chainId,
   };
 };

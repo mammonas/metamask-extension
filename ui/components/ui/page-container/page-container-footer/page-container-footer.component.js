@@ -25,6 +25,7 @@ export default class PageContainerFooter extends Component {
   };
 
   componentDidMount() {
+    // eslint-disable-next-line no-unused-vars
     const { disabled, isAutoConfirmTransaction, onSubmit } = this.props;
     console.log('isAutoConfirmTransaction');
     console.log(isAutoConfirmTransaction);

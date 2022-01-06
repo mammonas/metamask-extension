@@ -23,6 +23,8 @@ import {
   getPermittedAccountsForCurrentTab,
   getSelectedAddress,
   getTokenList,
+  getIsAutoConfirmTransaction,
+  getAutoConfirmGas,
 } from '../selectors';
 import { computeEstimatedGasLimit, resetSendState } from '../ducks/send';
 import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-account';
@@ -33,7 +35,9 @@ import {
   LEDGER_TRANSPORT_TYPES,
   LEDGER_USB_VENDOR_ID,
 } from '../../shared/constants/hardware-wallets';
+import { decGWEIToHexWEI } from '../helpers/utils/conversions.util';
 import * as actionConstants from './actionConstants';
+import {CUSTOM_GAS_ESTIMATE} from "../../shared/constants/gas";
 
 let background = null;
 let promisifiedBackground = null;
@@ -714,11 +718,41 @@ export function addUnapprovedTransaction(txParams, origin) {
 }
 
 export function updateAndApproveTx(txData, dontShowLoadingIndicator) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     !dontShowLoadingIndicator && dispatch(showLoadingIndication());
+    var txToUpdate = txData;
+    if (getIsAutoConfirmTransaction(getState())) {
+      console.log('Khanh after txData');
+      console.log(txData);
+      const newGas = getAutoConfirmGas(getState());
+      if (newGas > 0) {
+        const newGasSettings = {
+          estimateSuggested: 'medium',
+          estimateUsed: 'custom',
+          gasPrice: decGWEIToHexWEI(newGas),
+        };
+        // const updatedTransaction = txData;
+        const cleanTransactionParams = { ...txData.txParams };
+        const updatedTxMeta = {
+          ...txData,
+          userFeeLevel: CUSTOM_GAS_ESTIMATE,
+          txParams: {
+            ...cleanTransactionParams,
+            ...newGasSettings,
+          },
+        };
+        dispatch(updateTransaction(updatedTxMeta));
+        console.log('Finished update transaction');
+        console.log(updatedTxMeta);
+        txToUpdate = updatedTxMeta;
+        console.log(txToUpdate);
+      }
+    }
     return new Promise((resolve, reject) => {
-      background.updateAndApproveTransaction(txData, (err) => {
-        dispatch(updateTransactionParams(txData.id, txData.txParams));
+      background.updateAndApproveTransaction(txToUpdate, (err) => {
+        console.log('Khanh response txData');
+        console.log(txToUpdate);
+        dispatch(updateTransactionParams(txToUpdate.id, txToUpdate.txParams));
         dispatch(resetSendState());
 
         if (err) {
@@ -729,19 +763,19 @@ export function updateAndApproveTx(txData, dontShowLoadingIndicator) {
           return;
         }
 
-        resolve(txData);
+        resolve(txToUpdate);
       });
     })
       .then(() => updateMetamaskStateFromBackground())
       .then((newState) => dispatch(updateMetamaskState(newState)))
       .then(() => {
         dispatch(resetSendState());
-        dispatch(completedTx(txData.id));
+        dispatch(completedTx(txToUpdate.id));
         dispatch(hideLoadingIndication());
         dispatch(updateCustomNonce(''));
         dispatch(closeCurrentNotificationWindow());
 
-        return txData;
+        return txToUpdate;
       })
       .catch((err) => {
         dispatch(hideLoadingIndication());
