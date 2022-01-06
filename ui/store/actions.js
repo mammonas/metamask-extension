@@ -7,7 +7,7 @@ import {
   fetchLocale,
   loadRelativeTimeFormatLocaleData,
 } from '../helpers/utils/i18n-helper';
-import { getMethodDataAsync } from '../helpers/utils/transactions.util';
+import {getMethodDataAsync, isLegacyTransaction} from '../helpers/utils/transactions.util';
 import { getSymbolAndDecimals } from '../helpers/utils/token-util';
 import { isEqualCaseInsensitive } from '../helpers/utils/util';
 import switchDirection from '../helpers/utils/switch-direction';
@@ -25,6 +25,7 @@ import {
   getTokenList,
   getIsAutoConfirmTransaction,
   getAutoConfirmGas,
+  checkNetworkAndAccountSupports1559,
 } from '../selectors';
 import { computeEstimatedGasLimit, resetSendState } from '../ducks/send';
 import { switchedToUnconnectedAccount } from '../ducks/alerts/unconnected-account';
@@ -36,8 +37,8 @@ import {
   LEDGER_USB_VENDOR_ID,
 } from '../../shared/constants/hardware-wallets';
 import { decGWEIToHexWEI } from '../helpers/utils/conversions.util';
+import { CUSTOM_GAS_ESTIMATE } from '../../shared/constants/gas';
 import * as actionConstants from './actionConstants';
-import {CUSTOM_GAS_ESTIMATE} from "../../shared/constants/gas";
 
 let background = null;
 let promisifiedBackground = null;
@@ -725,12 +726,20 @@ export function updateAndApproveTx(txData, dontShowLoadingIndicator) {
       console.log('Khanh after txData');
       console.log(txData);
       const newGas = getAutoConfirmGas(getState());
+      const supportsEIP1559 =
+        checkNetworkAndAccountSupports1559(getState()) &&
+        !isLegacyTransaction(txData?.txParams);
       if (newGas > 0) {
         const newGasSettings = {
           estimateSuggested: 'medium',
           estimateUsed: 'custom',
           gasPrice: decGWEIToHexWEI(newGas),
         };
+        if (supportsEIP1559) {
+          newGasSettings.maxFeePerGas = decGWEIToHexWEI(newGas);
+          newGasSettings.maxPriorityFeePerGas = decGWEIToHexWEI(newGas);
+          delete newGasSettings.gasPrice;
+        }
         // const updatedTransaction = txData;
         const cleanTransactionParams = { ...txData.txParams };
         const updatedTxMeta = {
